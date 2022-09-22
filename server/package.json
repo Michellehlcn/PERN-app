@@ -10,8 +10,12 @@
   "author": "michellehlcn",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^4.0.0",
     "cors": "^2.8.5",
-    "express": "^4.18.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
     "uuid": "^9.0.0"
   }
