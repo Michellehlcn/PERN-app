@@ -1,84 +1,49 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const cors = require("cors");
+const cors = require('cors');
 const pool = require("./db");
 
+
 // middleware
-app.use(cors());
+app.use(cors( {origin: ['http://localhost:3000', 'http://127.0.0.1:3000']}));
 app.use(express.json());
+
+// app.use(function (req, res, next) {
+
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+//     // Request headers you wish to allow
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+
+//     // Pass to next layer of middleware
+//     next();
+// });
+
+// Enable cors 
+// https://stackoverflow.com/questions/18642828/origin-origin-is-not-allowed-by-access-control-allow-origin
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+};
 
 //ROUTES//
 
 //register and login routes
-
-app.use("/auth", require("./routes/jwtAuth"));
+// app.options('/authentication/verify', cors(corsOptionsDelegate)); //enable pre-light request for verify
+app.use("/authentication", cors(corsOptions),require("./routes/jwtAuth"));
 
 app.use("/dashboard", require("./routes/dashboard"));
 
-//create a todo
-
-app.post("/todos", async(req, res) => {
-    try {
-        const { description } = req.body;
-        const newTodo = await pool.query(
-            "INSERT INTO todo (description) VALUES($1) RETURNING *",
-            [description]
-        );
-        res.json(newTodo.rows[0])
-        
-        console.log(req.body);
-    } catch (err) {
-        console.log("err.message");
-    }
-});
-
-//get all todo
-
-app.get("/todos", async(req, res) => {
-    try {
-        const allTodos = await pool.query("SELECT * FROM todo");
-        res.json(allTodos.rows);
-    } catch (err) {
-        console.error(err.message);
-    }
-})
-
-//get a todo
-
-app.get("/todos/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id]);
-        res.json(todo.rows[0]);
-    } catch (err) {
-        console.error(err.message);
-    }
-})
-
-//update a todo
-
-app.put("/todos/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { description } = req.body;
-        const updateTodo = await pool.query("UPDATE todo SET description = $1 WHERE todo_id= $2",[description, id]);
-        res.json("Todo was updated");
-    } catch (err) {
-        console.error(err.message);
-    }
-});
-
-//delete a todo
-
-app.delete("/todos/:id", async (req, res) => {
-    try {
-        const {id} = req.params;
-        const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1", [id]);
-        res.json("Todo was deleted.")
-    } catch (err) {
-        console.error(err.message);
-    }
-})
+app.use("/todos", require("./routes/todos"));
 
 app.listen(5000,  () => {
     console.log("server has started on port 5000");

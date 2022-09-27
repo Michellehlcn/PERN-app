@@ -4,7 +4,7 @@ const pool = require("../db");
 const bcrypt = require("bcrypt");
 const jwtGenerator = require('../utils/jwtGenerator');
 const dashboard = require("./dashboard");
-const authorization = require("../middleware/authorization");
+const authorize = require("../middleware/authorize");
 const validInfo = require("../middleware/validInfo");
 
 //registering
@@ -13,16 +13,18 @@ router.post("/register", validInfo, async (req, res) => {
     try {
         //1. destructure the req.body (name, email, password)
 
-        const { name, email, password } = req.body;
-
+        const { email, password, name } = req.body;
+        console.log(JSON.stringify(req.body));
         //2. check if user exist (if user exits then throw error)
 
         const user = pool.query("SELECT * FROM users WHERE user_email = $1", [
             email
         ]);
-        if (user.rows.length !== 0) {
-            return res.status(401).send("User already exist.");
-        };
+        console.log(user);
+        
+        // if (user.rows.length >0) {
+        //     return res.status(401).send("User already exist.");
+        // };
 
         //3. Bcrypt the user password
 
@@ -37,7 +39,7 @@ router.post("/register", validInfo, async (req, res) => {
             [name, email, bcryptPassword]);
 
         
-        res.json(newUser.rows[0]);
+        // res.json(newUser.rows[0]);
 
         //5. generating our jwt token
         
@@ -89,8 +91,9 @@ router.post("/login", validInfo, async(req, res) => {
     }
 })
 
-router.get("/verify", authorization, async(req,res) => {
+router.post("/verify", authorize, async(req,res) => {
     try {
+      console.log(req.header('Origin'));
         res.json(true);
     } catch (error) {
         console.error(error.message);
