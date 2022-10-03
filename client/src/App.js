@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-toastify/dist/ReactToastify.css";
 import {
   BrowserRouter as Router,
