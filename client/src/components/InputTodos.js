@@ -1,196 +1,164 @@
 import React, { Fragment, useState } from "react";
+import { Form, Row, Col } from "react-bootstrap";
+import { toast } from "react-toastify";
+import "./MySchedule.css";
 
-const InputTodo = () => {
+function MySchedule () {
+  const [inputs, setInputs] = useState({});
+  const handleInputChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({...values, [name]: value}))
+    };
 
-    const [description, setDescription] = useState("hello");
-    const onSubmitForm = async(e) => {
+  const handleSubmit = async(e) =>{
+        console.log(e);
         e.preventDefault();
         try {
-            const body = { description };
+            alert(JSON.stringify(inputs));
+            const body = inputs;
+
             // eslint-disable-next-line
-            const response  =await fetch("http://localhost:5000/todos", {
+            const response  = await fetch("http://localhost:5000/schedules", {
                 method: "POST",
                 headers: { "Content-Type": 
                 "application/json" },
                 body: JSON.stringify(body)
             });
+            console.log(JSON.stringify(body));
+            toast.success("Timesheet has been lodged successfully");
             window.location= "/dashboard";
         } catch (error) {
             console.error(error.message);
-        }
-    }
+        };
+    };
 
-    return (
-    <Fragment>
+      return (
+      <Fragment>
         <div className="card" >
             <div className="card-body">
                 <h5 className="card-title text-center mt-5">Schedule your timesheet</h5>
                 <h6 className="card-subtitle mb-2 text-muted">Please select options bellow</h6>
+                {/* <form className="d-flex mt-5" onSubmit={onSubmitForm}> */}
+                
+                <Form id="myform" onSubmit={handleSubmit}>
 
+                  {/* Subject input */}
+                  
+                    <Form.Group as={Row} className="mb-3 " controlId="formHorizontalSubject">
+                        <Form.Label column sm={2} >SUBJECT</Form.Label>
+                        <Col sm={3} >
+                        <Form.Control as="select" className="rounded=0 shadow" name="subject" value={inputs.subject || ""} onChange={handleInputChange}>
+                            <option className="d-none" value=""> Select Subject</option>
+                            {[
+                              "Curriculm Design",
+                              "Health Science A (1-3T)",
+                              "Massage Clinic C",
+                              "Leadership in Early Childhood Education",
+                              "Diverse Clients",
+                              "Counselling Specialisation",
+                              "The Yoga Business",
+                              "Healthy Bodies Theory",
+                              "Cycle A Theory",
+                              "Advanced Personal Training(Theory+Practical)",
+                              "Human Resource Management"
+                              ].map(s => (
+                                <option value={s}>{s}</option>
+                              ))} 
+                          </Form.Control>
+                        </Col>
+                    </Form.Group>
 
-                <Form id="myform" onSubmit={(e) =>onTimesheet(e)}>
-  <Row>
-    <Col md={6}>
-      <FormGroup>
-        <Label for="Subject">
-        Subject
-        </Label>
-        <Input
-          id="Subject"
-          placeholder="Select Subject"
-          type="select"
-          error={error.subject}
-          value={timesheet.subject}
-          onChange={(e) => setTimesheet({...timesheet, subject: e.target.value })}
-          required
-        >
-          <option></option>
-          <option>Nurturing Children</option>
-          <option>Curriculm Design</option>
-          <option>Health Science A (1-3T)</option>
-          <option>Massage Clinic C</option>
-          <option>Leadership in Early Childhood Education</option>
-          <option>Diverse Clients</option>
-          <option>Counselling Specialisation</option>
-          <option>The Yoga Business</option>
-          <option>Healthy Bodies Theory</option>
-          <option>Cycle A Theory </option>
-          <option>Advanced Personal Training(Theory+Practical)</option>
-          <option>Human Resource Management</option>
-        </Input>
-      </FormGroup>
-    </Col>
-    <Col md={6}>
-      <FormGroup>
-        <Label for="Course">
-        Course
-        </Label>
-        <Input
-          id="Course"
-          placeholder="Select course"
-          type="select"
-          error={error.course}
-          value={timesheet.course}
-          onChange={(e) => setTimesheet({...timesheet, course: e.target.value })}
-          required
-        >
-          <option></option>
-          <option>CIII ECEC(OLD)</option>
-          <option>DIP ECEC(OLD)</option>
-          <option>CIV Massage</option>
-          <option>DIP Massage</option>
-          <option>DIP ECEC(NEW)</option>
-          <option>DIP CNSL/CS/MH</option>
-          <option>DIP CNSL</option>
-          <option>DIP ECEC(OLD)</option>
-          <option>CIV YOGA</option>
-          <option>CIV FIT</option>
-          <option>DRSM FIT</option>
-        </Input>
-      </FormGroup>
-    </Col>
-  </Row>
+                  {/* Course Input */}
+                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalCourse">
+                        <Form.Label column sm={2} >COURSE</Form.Label>
+                        <Col sm={3} >
+                            <Form.Control as="select" className="rounded=0 shadow" name="course" value={inputs.course || ""}  onChange={handleInputChange}>
+                              <option className="d-none" value=""> Select Course</option>
+                              {[
+                                "CIII ECEC(OLD)",
+                                "DIP ECEC(OLD)",
+                                "CIV Massage",
+                                "DIP Massage",
+                                "DIP ECEC(NEW)",
+                                "DIP CNSL/CS/MH",
+                                "DIP CNSL",
+                                "CIV YOGA",
+                                "CIV FIT",
+                                "DRSM FIT"
+                                ].map(s => (
+                                  <option value={s}>{s}</option>
+                                ))} 
+                            </Form.Control>
+                        </Col>
+                  </Form.Group>
+                  
+                  {/* Campus Input */}
+                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalCampus">
+                        <Form.Label column sm={2} >CAMPUS</Form.Label>
+                        <Col sm={3} >
+                            <Form.Control as="select" className="rounded=0 shadow" name="campus" value={inputs.campus || ""} onChange={handleInputChange}>
+                              <option className="d-none" value=""> Select Campus</option>
+                              {[
+                                "SYDNEY",
+                                "MELBOURNE",
+                                "BRISBANE",
+                                "PERTH"
+                                ].map(s => (
+                                  <option value={s}>{s}</option>
+                                ))} 
+                            </Form.Control>
+                        </Col>
+                  </Form.Group>
 
-  <Row>
-    <Col md={4}>
-      <FormGroup>
-        <Label for="Campus">
-        Campus
-        </Label>
-        <Input
-          id="Campus"
-          placeholder="Select campus"
-          className="mb-3"
-          type="select"
-          error={error.campus}
-          value={timesheet.campus}
-          onChange={(e) => setTimesheet({...timesheet, campus: e.target.value })}
-        >
-          <option></option>
-          <option>SYDNEY</option>
-          <option>MELBOURNE</option>
-          <option>BRISBANE</option>
-          <option>PERTH</option>
-        </Input>
-      </FormGroup>
-    </Col>
-    <Col md={3}>
-      <FormGroup>
-        <Label for="Day">
-        Day
-        </Label>
-        <Input
-          id="Day"
-          placeholder="Select day"
-          type="select"
-          error={error.day}
-          value={timesheet.day}
-          onChange={(e) => setTimesheet({...timesheet, day: e.target.value })}
-          required
-        >
-          <option></option>
-          <option>MONDAY</option>
-          <option>TUESDAY</option>
-          <option>WEDNESDAY</option>
-          <option>THURSDAY</option>
-          <option>FRIDAY</option>
-      </Input>
-      </FormGroup>
-    </Col>
-    <Col md={2}>
-      <FormGroup>
-        <Label for="am_pm_eve">
-        AM/PM/EVE
-        </Label>
-        <Input
-          id="am_pm_eve"
-          placeholder=""
-          type="select"
-          error={error.am_pm_eve}
-          value={timesheet.am_pm_eve}
-          onChange={(e) => setTimesheet({...timesheet, am_pm_eve: e.target.value })}
-          required
-          >
-          <option></option>
-          <option>AM</option>
-          <option>PM</option>
-          <option>EVE</option>
+                  {/* Date input */}
+                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalDate">
+                        <Form.Label column sm={2} >DATE</Form.Label>
+                        <Col sm={3} >
+                            <Form.Control as="select" className="rounded=0 shadow" name="date" value={inputs.date || ""} onChange={handleInputChange}>
+                              <option className="d-none" value=""> Select Date</option>
+                              {[
+                                "MONDAY",
+                                "TUESDAY",
+                                "WEDNESDAY",
+                                "THURSDAY",
+                                "FRIDAY"
+                                ].map(s => (
+                                  <option value={s}>{s}</option>
+                                ))} 
+                            </Form.Control>
+                        </Col>
+                  </Form.Group>
 
-        </Input>
-      </FormGroup>
-    </Col>
-    <Col md={3}>
-      <FormGroup>
-        <Label for="time">Time</Label>
-        <Input id="time" placeholder="" type="text" error={error.time} value={timesheet.time}
-          onChange={(e) => setTimesheet({...timesheet, time: e.target.value })} required />
-      </FormGroup>
-    </Col>
-</Row>
-  <FormGroup>
-    <Label for="group">Group</Label>
-    <Input id="group" placeholder="Select group" type="text" error={error.group} value={timesheet.group}
-      onChange={(e) => setTimesheet({...timesheet, group: e.target.value })} />
-  </FormGroup>
- 
-
-
-
-                <form className="d-flex mt-5" onSubmit={onSubmitForm}>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <input type="text" className="form-control" value={description} onChange={e => setDescription(e.target.value)}/>
-                    <button className="btn btn-success">Submit</button>
-                </form>
+                  {/* Time input */}
+                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalTime">
+                        <Form.Label column sm={2} >TIME</Form.Label>
+                        <Col sm={3} >
+                            <Form.Control as="select" className="rounded=0 shadow" name="time" value= {inputs.time || ""} onChange={handleInputChange}>
+                              <option className="d-none" value=""> Select Time</option>
+                              {[
+                                "AM 12:00 - 14:00",
+                                "PM 12:00 - 14:00",
+                                "EVE 12:00 - 14:00"
+                                ].map(s => (
+                                  <option value={s}>{s}</option>
+                                ))} 
+                            </Form.Control>
+                        </Col>
+                  </Form.Group>
+                
+                {/* Submit Button */}
+                <Form.Group as={Row} className="d-flex">
+                  <Col>
+                    <button type="submit" className="btn btn-primary justify-content-center">Submit</button>
+                  </Col>
+                </Form.Group>
+         
+                </Form>
             </div>
         </div>
     </Fragment>
     );
-};
+}
 
-export default InputTodo;
+export default MySchedule;
