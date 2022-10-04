@@ -4,13 +4,15 @@
   "description": "todo PERN stack",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "concurrently \"npm run server\" \"cd ../client && npm start\"",
+    "server": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "michellehlcn",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^4.0.0",
+    "concurrently": "^7.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
