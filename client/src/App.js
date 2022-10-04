@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 import {
   BrowserRouter as Router,
   Route,
@@ -48,8 +49,9 @@ function App() {
 
   return (
     <Fragment>
+      <div className="container-fluid bg-secondary">
       <Router>
-        <div className="container">
+        
           <Switch>
             <Route exact path="/login" render={
                 props => !isAuthenticated ? 
@@ -64,8 +66,9 @@ function App() {
               ( <Dashboard {...props} setAuth={setAuth} />) : ( <Redirect to="/login" />) }
             />
           </Switch>
-        </div>
+     
       </Router>
+      </div>
     </Fragment>
   );
 }

@@ -43,6 +43,8 @@ app.use("/authentication", cors(corsOptions),require("./routes/jwtAuth"));
 
 app.use("/dashboard", require("./routes/dashboard"));
 
+app.use("/schedules", require("./routes/schedules"));
+
 app.use("/todos", require("./routes/todos"));
 
 app.listen(5000,  () => {
