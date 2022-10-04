@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 
-import EditTodo from "./EditTodo";
+import EditTodo from "./EditTimesheet";
 
 const ListSchedules = () => {
   const [schedules, setSchedules] = useState([]);

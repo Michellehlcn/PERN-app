@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
-import "./MySchedule.css";
+import "./MyTimesheet.css";
 
 function MySchedule () {
   const [inputs, setInputs] = useState({});
