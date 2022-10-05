@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { toast } from "react-toastify";
+import { FloatingLabel, Form } from "react-bootstrap";
 
 const Login = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
@@ -20,6 +21,7 @@ const Login = ({ setAuth }) => {
     e.preventDefault();
     try {
       const body = { email, password };
+      console.log(body);
       const response = await fetch(
         "http://localhost:5000/authentication/login",
         {
@@ -49,6 +51,7 @@ const Login = ({ setAuth }) => {
 
     return (
         <Fragment>
+
         <div className="container">
           <div class="row justify-content-md-center">
             <div className="col-4 mt-5  align-self-center">
@@ -100,16 +103,15 @@ const Login = ({ setAuth }) => {
 
                 <p class="text-center">or:</p>
                 {/* Email input */}
-                <div class="form-outline mb-4">
-                  <label class="form-label" for="loginName">Email or username</label>
-                  <input type="email" id="loginName" class="form-control" name="email" value={email} onChange={e => onChange(e)} className="form-control my-3" />
-                                  
-                </div>
+                <Form.Floating className="mb-4"  >
+                  <Form.Control id="floatingInputEmail" placeholder="name@example.com"  value={email} onChange={e => onChange(e)}/> 
+                  <label htmlFor="floatingInputEmail" >Email Address</label>
+                </Form.Floating>
                 {/* Password input */}
-                <div class="form-outline mb-4">
-                  <label class="form-label" for="loginPassword">Password</label>
-                  <input type="password" id="loginPassword" class="form-control" name="password" value={password} onChange={e => onChange(e)} className="form-control my-3" />
-                </div>
+                <FloatingLabel controlId="floatingPassword" label="Password" className="mb-4" onChange={e => onChange(e)} >
+                  <Form.Control type="password" placeholder="Password"  value={password} /> 
+                </FloatingLabel>
+            
 
                 <div class="row mb-4">
                   <div class="col-md-6 d-flex justify-content-center">

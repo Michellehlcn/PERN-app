@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Form, Row, Col } from "react-bootstrap";
+import { Form, Row, Col, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "./MyTimesheet.css";
 
@@ -35,21 +35,22 @@ function MySchedule () {
 
       return (
       <Fragment>
-        <div className="card" >
-            <div className="card-body">
-                <h5 className="card-title text-center mt-5">Schedule your timesheet</h5>
+        <Card className="t-2">
+          <Card.Header as="h5" className="card-title text-center mt-5 font-weight-bold">Schedule Your Timesheet</Card.Header>
+          <Card.Body>
                 <h6 className="card-subtitle mb-2 text-muted">Please select options bellow</h6>
+                <br/>
                 {/* <form className="d-flex mt-5" onSubmit={onSubmitForm}> */}
                 
                 <Form id="myform" onSubmit={handleSubmit}>
 
                   {/* Subject input */}
                   
-                    <Form.Group as={Row} className="mb-3 " controlId="formHorizontalSubject">
-                        <Form.Label column sm={2} >SUBJECT</Form.Label>
+                    <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalSubject">
+                        <Form.Label column sm={2}  className="text-right text-primary font-weight-bold control-label" >Subject</Form.Label>
                         <Col sm={3} >
-                        <Form.Control as="select" className="rounded=0 shadow" name="subject" value={inputs.subject || ""} onChange={handleInputChange}>
-                            <option className="d-none" value=""> Select Subject</option>
+                        <Form.Select as="select" className="rounded=0 shadow" name="subject" value={inputs.subject || ""} onChange={handleInputChange}>
+                            <option className="d-none" value="">---Select---</option>
                             {[
                               "Curriculm Design",
                               "Health Science A (1-3T)",
@@ -65,16 +66,16 @@ function MySchedule () {
                               ].map(s => (
                                 <option value={s}>{s}</option>
                               ))} 
-                          </Form.Control>
+                          </Form.Select>
                         </Col>
                     </Form.Group>
 
                   {/* Course Input */}
-                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalCourse">
-                        <Form.Label column sm={2} >COURSE</Form.Label>
+                  <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalCourse">
+                        <Form.Label column sm={2}  className="text-right text-primary font-weight-bold control-label">Course Name</Form.Label>
                         <Col sm={3} >
-                            <Form.Control as="select" className="rounded=0 shadow" name="course" value={inputs.course || ""}  onChange={handleInputChange}>
-                              <option className="d-none" value=""> Select Course</option>
+                            <Form.Select as="select" className="rounded=0 shadow" name="course" value={inputs.course || ""}  onChange={handleInputChange}>
+                              <option className="d-none" value="">---Select---</option>
                               {[
                                 "CIII ECEC(OLD)",
                                 "DIP ECEC(OLD)",
@@ -89,16 +90,16 @@ function MySchedule () {
                                 ].map(s => (
                                   <option value={s}>{s}</option>
                                 ))} 
-                            </Form.Control>
+                            </Form.Select>
                         </Col>
                   </Form.Group>
                   
                   {/* Campus Input */}
-                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalCampus">
-                        <Form.Label column sm={2} >CAMPUS</Form.Label>
+                  <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalCampus">
+                        <Form.Label column sm={2} className="text-right text-primary font-weight-bold control-label" >Campus</Form.Label>
                         <Col sm={3} >
-                            <Form.Control as="select" className="rounded=0 shadow" name="campus" value={inputs.campus || ""} onChange={handleInputChange}>
-                              <option className="d-none" value=""> Select Campus</option>
+                            <Form.Select as="select" className="rounded=0 shadow" name="campus" value={inputs.campus || ""} onChange={handleInputChange}>
+                              <option className="d-none" value="">---Select---</option>
                               {[
                                 "SYDNEY",
                                 "MELBOURNE",
@@ -107,16 +108,16 @@ function MySchedule () {
                                 ].map(s => (
                                   <option value={s}>{s}</option>
                                 ))} 
-                            </Form.Control>
+                            </Form.Select>
                         </Col>
                   </Form.Group>
 
                   {/* Date input */}
-                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalDate">
-                        <Form.Label column sm={2} >DATE</Form.Label>
+                  <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalDate">
+                        <Form.Label column sm={2}  className="text-right text-primary font-weight-bold control-label">Class Date</Form.Label>
                         <Col sm={3} >
-                            <Form.Control as="select" className="rounded=0 shadow" name="date" value={inputs.date || ""} onChange={handleInputChange}>
-                              <option className="d-none" value=""> Select Date</option>
+                            <Form.Select as="select" className="rounded=0 shadow" name="date" value={inputs.date || ""} onChange={handleInputChange}>
+                              <option className="d-none" value="">---Select---</option>
                               {[
                                 "MONDAY",
                                 "TUESDAY",
@@ -126,16 +127,16 @@ function MySchedule () {
                                 ].map(s => (
                                   <option value={s}>{s}</option>
                                 ))} 
-                            </Form.Control>
+                            </Form.Select>
                         </Col>
                   </Form.Group>
 
                   {/* Time input */}
-                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalTime">
-                        <Form.Label column sm={2} >TIME</Form.Label>
+                  <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalTime">
+                        <Form.Label column sm={2} className="text-right text-primary font-weight-bold control-label" >Time</Form.Label>
                         <Col sm={3} >
-                            <Form.Control as="select" className="rounded=0 shadow" name="time" value= {inputs.time || ""} onChange={handleInputChange}>
-                              <option className="d-none" value=""> Select Time</option>
+                            <Form.Select as="select" className="rounded=0 shadow" name="time" value= {inputs.time || ""} onChange={handleInputChange}>
+                              <option className="d-none" value="">---Select---</option>
                               {[
                                 "AM 12:00 - 14:00",
                                 "PM 12:00 - 14:00",
@@ -143,20 +144,20 @@ function MySchedule () {
                                 ].map(s => (
                                   <option value={s}>{s}</option>
                                 ))} 
-                            </Form.Control>
+                            </Form.Select>
                         </Col>
                   </Form.Group>
                 
                 {/* Submit Button */}
-                <Form.Group as={Row} className="d-flex">
+                <Form.Group as={Row} className="text-center">
                   <Col>
-                    <button type="submit" className="btn btn-primary justify-content-center">Submit</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                   </Col>
                 </Form.Group>
-         
                 </Form>
-            </div>
-        </div>
+            </Card.Body>
+            <Card.Footer className="text-muted font-italic"><h6>* Please note that timesheets need to be approved in 2-business days. Please contact admin if you have any enquiries.</h6></Card.Footer>
+        </Card>
     </Fragment>
     );
 }
