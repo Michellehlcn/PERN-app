@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
+import { Card } from "react-bootstrap";
 
 import EditTodo from "./EditTimesheet";
 
@@ -40,12 +41,16 @@ const ListSchedules = () => {
   return (
     <Fragment>
       {" "}
-      <table class="table mt-5 text-center">
+      <Card className="mt-3">
+      <Card.Body>
+      <table class="table mt-3 text-center">
         <thead>
           <tr>
             <th>Subject</th>
             <th>Course</th>
             <th>Campus</th>
+            <th>Class Date</th>
+            <th>Time</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
@@ -61,6 +66,8 @@ const ListSchedules = () => {
               <td>{schedule.subject}</td>
               <td>{schedule.course}</td>
               <td>{schedule.campus}</td>
+              <td>{schedule.date}</td>
+              <td>{schedule.time}</td>
               <td>
                 <EditTodo schedule={schedule} />
               </td>
@@ -76,6 +83,8 @@ const ListSchedules = () => {
           ))}
         </tbody>
       </table>
+      </Card.Body>
+      </Card>
     </Fragment>
   );
 };

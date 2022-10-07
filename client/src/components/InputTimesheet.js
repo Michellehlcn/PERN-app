@@ -39,7 +39,7 @@ function MySchedule () {
           <Card.Header as="h5" className="card-title text-center mt-5 font-weight-bold">Schedule Your Timesheet</Card.Header>
           <Card.Body>
                 <h6 className="card-subtitle mb-2 text-muted">Please select options bellow</h6>
-                <br/>
+                <hr class="my-4"/>
                 {/* <form className="d-flex mt-5" onSubmit={onSubmitForm}> */}
                 
                 <Form id="myform" onSubmit={handleSubmit}>

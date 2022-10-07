@@ -103,13 +103,13 @@ const Login = ({ setAuth }) => {
 
                 <p class="text-center">or:</p>
                 {/* Email input */}
-                <Form.Floating className="mb-4"  >
-                  <Form.Control id="floatingInputEmail" placeholder="name@example.com"  value={email} onChange={e => onChange(e)}/> 
+                <Form.Floating className="mb-4">
+                  <Form.Control type="email" name="email" id="floatingInputEmail" placeholder="name@example.com" value={email}  onChange={e => onChange(e)} /> 
                   <label htmlFor="floatingInputEmail" >Email Address</label>
                 </Form.Floating>
                 {/* Password input */}
-                <FloatingLabel controlId="floatingPassword" label="Password" className="mb-4" onChange={e => onChange(e)} >
-                  <Form.Control type="password" placeholder="Password"  value={password} /> 
+                <FloatingLabel controlId="floatingPassword" label="Password" className="mb-4"  >
+                  <Form.Control type="password" name="password" placeholder="Password"  value={password} onChange={e => onChange(e)}/> 
                 </FloatingLabel>
             
 
