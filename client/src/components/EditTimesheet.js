@@ -3,7 +3,16 @@ import { Form, Col, Row  } from "react-bootstrap";
 
 const EditTodo = ({ schedule }) =>{
 
-    const [editSchedule, setEditSchedule] = useState(schedule);
+    const [editSchedule, setEditSchedule] = useState({
+      subject: schedule.subject,
+      course: schedule.course, 
+      campus: schedule.campus, 
+      date: schedule.date, 
+      time: schedule.time
+    });
+
+    const { subject, course, campus, date, time } = editSchedule;
+    
     const handleInputChange = (event) => {
       const name = event.target.name;
       const value = event.target.value;
@@ -14,8 +23,8 @@ const EditTodo = ({ schedule }) =>{
     const updateSchedule = async e =>{
         e.preventDefault();
         try {
-            const body = { editSchedule };
-            console.log(body);
+            const body = { subject, course, campus, date, time };
+            
             // eslint-disable-next-line
             const response = await fetch(
                 `http://localhost:5000/schedules/${schedule.form_id}`, 
@@ -25,6 +34,7 @@ const EditTodo = ({ schedule }) =>{
                     body: JSON.stringify(body)
                 }
             );
+            console.log("update timesheet " + body);
             window.location ="/dashboard";
         } catch (error) {
             console.log(error.message);
@@ -76,12 +86,12 @@ const EditTodo = ({ schedule }) =>{
                 onChange={e => setEditSchedule(e.target.value)}
               /> */}
                {/* Subject input */}
-               <Form id="myform" onSubmit={updateSchedule}>
+               <Form id="myform" >
 
                       <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalSubject">
                           <Form.Label column sm={3}  className="text-right text-primary font-weight-bold control-label" >Subject</Form.Label>
                           <Col >
-                          <Form.Select as="select" className="rounded=0 shadow" name="subject" value={editSchedule.subject || ""} onChange={handleInputChange}>
+                          <Form.Select as="select" className="rounded=0 shadow" name="subject" value={subject} onChange={e => handleInputChange(e)}>
                               <option className="d-none" value="">---Select---</option>
                               {[
                                 "Curriculm Design",
@@ -106,7 +116,7 @@ const EditTodo = ({ schedule }) =>{
                     <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalCourse">
                           <Form.Label column sm={3}  className="text-right text-primary font-weight-bold control-label">Course Name</Form.Label>
                           <Col >
-                              <Form.Select as="select" className="rounded=0 shadow" name="course" value={editSchedule.course || ""}  onChange={handleInputChange}>
+                              <Form.Select as="select" className="rounded=0 shadow" name="course" value={course}  onChange={e => handleInputChange(e)}>
                                 <option className="d-none" value="">---Select---</option>
                                 {[
                                   "CIII ECEC(OLD)",
@@ -130,7 +140,7 @@ const EditTodo = ({ schedule }) =>{
                     <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalCampus">
                           <Form.Label column sm={3} className="text-right text-primary font-weight-bold control-label" >Campus</Form.Label>
                           <Col >
-                              <Form.Select as="select" className="rounded=0 shadow" name="campus" value={editSchedule.campus || ""} onChange={handleInputChange}>
+                              <Form.Select as="select" className="rounded=0 shadow" name="campus" value={campus} onChange={e => handleInputChange(e)}>
                                 <option className="d-none" value="">---Select---</option>
                                 {[
                                   "SYDNEY",
@@ -148,7 +158,7 @@ const EditTodo = ({ schedule }) =>{
                     <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalDate">
                           <Form.Label column sm={3}  className="text-right text-primary font-weight-bold control-label">Class Date</Form.Label>
                           <Col >
-                              <Form.Select as="select" className="rounded=0 shadow" name="date" value={editSchedule.date || ""} onChange={handleInputChange}>
+                              <Form.Select as="select" className="rounded=0 shadow" name="date" value={date} onChange={e => handleInputChange(e)}>
                                 <option className="d-none" value="">---Select---</option>
                                 {[
                                   "MONDAY",
@@ -167,7 +177,7 @@ const EditTodo = ({ schedule }) =>{
                     <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalTime">
                           <Form.Label column sm={3} className="text-right text-primary font-weight-bold control-label" >Time</Form.Label>
                           <Col >
-                              <Form.Select as="select" className="rounded=0 shadow" name="time" value= {editSchedule.time || ""} onChange={handleInputChange}>
+                              <Form.Select as="select" className="rounded=0 shadow" name="time" value= {time} onChange={e => handleInputChange(e)}>
                                 <option className="d-none" value="">---Select---</option>
                                 {[
                                   "AM 12:00 - 14:00",
@@ -179,14 +189,7 @@ const EditTodo = ({ schedule }) =>{
                               </Form.Select>
                           </Col>
                     </Form.Group>
-
-                      {/* Submit Button */}
-                      <Form.Group as={Row} className="text-center">
-                        <Col>
-                          <button type="submit" className="btn btn-primary">Submit</button>
-                        </Col>
-                      </Form.Group>
-
+                    
                     </Form>
             </div>
 
