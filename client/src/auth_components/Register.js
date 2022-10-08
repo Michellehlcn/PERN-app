@@ -1,6 +1,9 @@
 import React, { Fragment, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { toast } from "react-toastify";
+import { FloatingLabel, Form } from "react-bootstrap";
 
 const Register = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
@@ -46,20 +49,62 @@ const Register = ({ setAuth }) => {
 
   return (
     <Fragment>
-        <div className="container">
-            <div className="col-4"></div>
-            <div className="col-4">
-            <h1 className="mt-5 text-center">Register</h1>
-            <form onSubmit={onSubmitForm}>
-                <input type="text" name="email" value={email} placeholder="email" onChange={e => onChange(e)} className="form-control my-3" />
-                <input type="password" name="password" value={password} placeholder="password" onChange={e => onChange(e)} className="form-control my-3" />
-                <input type="text" name="name" value={name} placeholder="name" onChange={e => onChange(e)} className="form-control my-3" />
-                <button className="btn btn-success btn-block">Submit</button>
-            </form>
-            <Link to="/login">login</Link>
-            </div>
-            <div className="col-4"></div>
-        </div>
+
+          {/* Register Tab */}
+
+              <form onSubmit={onSubmitForm}>
+              <div class="text-center mb-3">
+                    <p>Sign in with:</p>
+                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <FontAwesomeIcon icon={faFacebook} />
+                    </button>
+                    <button type="button" class="btn btn-primary btn-floating mx-1">
+                    <FontAwesomeIcon icon={faGoogle} />
+                    </button>
+                  </div>
+                <p class="text-center">or:</p>
+                
+                {/* Username input */}
+                <Form.Floating className="mb-4">
+                  <input type="text" id="UserName" name="name" value={name} placeholder="User Name" onChange={e => onChange(e)} className="form-control my-3" />
+                  <label class="form-label" for="UserName">User Name</label>
+                </Form.Floating>
+
+                {/* Email input */}
+                <Form.Floating className="mb-4">
+                  <input type="email" id="registerEmail" name="email" value={email} placeholder="Email Address" onChange={e => onChange(e)} className="form-control my-3" />
+                  <label class="form-label" for="registerEmail">Email Address</label>
+                </Form.Floating>
+
+                {/* Password input */}
+                <Form.Floating className="mb-4">
+                  <input type="password" id="registerPassword" name="password" value={password} placeholder="Password" onChange={e => onChange(e)} className="form-control my-3"  />
+                  <label class="form-label" for="registerPassword">Password</label>
+                </Form.Floating>
+
+                {/* Repeat Password input */}
+                <Form.Floating className="mb-5">
+                  <input type="password" id="registerRepeatPassword" class="form-control" placeholder="Confirm Password" />
+                  <label class="form-label" for="registerRepeatPassword">Confirm password</label>
+                </Form.Floating>
+
+                {/* Checkbox */}
+                <div class="form-check d-flex mb-4">
+
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="registerCheck"
+                    checked
+                  />
+                  <label class="form-check-label justify-content-center " for="registerCheck">
+                    I have read and agree to the terms
+                  </label>
+                </div>
+
+                {/* Submit button */}
+                <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
+                </form>
     </Fragment>
   );
 };

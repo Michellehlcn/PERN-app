@@ -25,6 +25,7 @@ const Dashboard = ({ setAuth }) => {
             localStorage.removeItem("token");
             setAuth(false);
             toast.success("Logout Successfully");
+            window.location('/');
         } catch (err) {
             console.error(err.message);
         }
