@@ -3,7 +3,7 @@ import React, { Fragment, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { toast } from "react-toastify";
-import { FloatingLabel, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 const Register = ({ setAuth }) => {
   const [inputs, setInputs] = useState({

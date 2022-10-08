@@ -10,6 +10,7 @@ const ListSchedules = () => {
 
   const deleteSchedule = async id => {
     try {
+      // eslint-disable-next-line
       const deleteSchedule = await fetch(`http://localhost:5000/schedules/${id}`, {
         method: "DELETE"
       });
@@ -46,6 +47,7 @@ const ListSchedules = () => {
       <table class="table mt-3 text-center">
         <thead>
           <tr>
+            <th>Approved</th>
             <th>Subject</th>
             <th>Course</th>
             <th>Campus</th>
@@ -63,6 +65,7 @@ const ListSchedules = () => {
           </tr> */}
           {schedules.map(schedule => (
             <tr key={schedule.form_id}>
+              <td>{schedule.is_active ? "Yes" : "No"}</td>
               <td>{schedule.subject}</td>
               <td>{schedule.course}</td>
               <td>{schedule.campus}</td>

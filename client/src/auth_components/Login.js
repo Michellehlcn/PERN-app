@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import Card from 'react-bootstrap/Card';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";

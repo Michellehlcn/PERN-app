@@ -1,4 +1,4 @@
-import { Tab, Tabs, Card, Nav } from 'react-bootstrap';
+import { Tab, Card, Nav } from 'react-bootstrap';
 
 import Login from './Login';
 import Register from './Register';

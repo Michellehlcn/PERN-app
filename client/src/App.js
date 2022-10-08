@@ -13,8 +13,6 @@ import { toast } from "react-toastify";
 
 //components
 
-// import Login from "./auth_components/Login";
-// import Register from "./auth_components/Register";
 import Dashboard from "./auth_components/DashBoard";
 import HomePage from "./auth_components/HomePage";
 
