@@ -12,7 +12,6 @@ function MySchedule () {
     };
 
   const handleSubmit = async(e) =>{
-        console.log(e);
         e.preventDefault();
         try {
             alert(JSON.stringify(inputs));
@@ -25,12 +24,67 @@ function MySchedule () {
                 "application/json" },
                 body: JSON.stringify(body)
             });
-            console.log(JSON.stringify(body));
-            toast.success("Timesheet has been lodged successfully");
             window.location= "/dashboard";
+            toast.success("Timesheet has been lodged successfully");
         } catch (error) {
             console.error(error.message);
         };
+    };
+  const [file, setFile] = useState();
+  const fileReader = new FileReader();
+
+  const handleCsv = (e) => {
+    setFile(e.target.files[0]);
+  }; 
+
+  const csvFileToArray =  (string) => {
+      const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
+      const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
+
+      const array = csvRows.map(i => {
+        const values = i.split(",");
+        const obj = csvHeader.reduce((object, header, index) => {
+          object[header.split("\r")[0]] = values[index];
+          return object;
+        }, {} );
+        return obj;
+      });
+      // setArray(array);
+      setInputs(array[0]);
+      console.log(inputs);
+      
+     //console.log(csvHeader);
+    };
+
+    const handleOnSubmitCsv = (e) => {
+      e.preventDefault();
+      if(file) {
+        fileReader.onload = async function (event) {
+          const text = event.target.result;
+           csvFileToArray(text);
+          
+          setTimeout( () => function () {
+          try {
+              alert(JSON.stringify(inputs));
+              const body = inputs;
+
+              // eslint-disable-next-line
+              const response  = fetch("http://localhost:5000/schedules", {
+                  method: "POST",
+                  headers: { "Content-Type": 
+                  "application/json" },
+                  body: JSON.stringify(body)
+              });
+              window.location= "/dashboard";
+              toast.success("Timesheet has been lodged successfully");
+          } catch (error) {
+              console.error(error.message);
+          };
+        }, 2000);
+      };
+        fileReader.readAsText(file);
+        
+      }
     };
 
       return (
@@ -45,35 +99,36 @@ function MySchedule () {
                 <Form id="myform" onSubmit={handleSubmit}>
 
                   {/* Subject input */}
-                  
+                <Row>
+                  <Col sm={6}>
                     <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalSubject">
-                        <Form.Label column sm={2}  className="text-right text-primary font-weight-bold control-label" >Subject</Form.Label>
-                        <Col sm={3} >
-                        <Form.Select as="select" className="rounded=0 shadow" name="subject" value={inputs.subject || ""} onChange={handleInputChange}>
-                            <option className="d-none" value="">---Select---</option>
-                            {[
-                              "Curriculm Design",
-                              "Health Science A (1-3T)",
-                              "Massage Clinic C",
-                              "Leadership in Early Childhood Education",
-                              "Diverse Clients",
-                              "Counselling Specialisation",
-                              "The Yoga Business",
-                              "Healthy Bodies Theory",
-                              "Cycle A Theory",
-                              "Advanced Personal Training(Theory+Practical)",
-                              "Human Resource Management"
-                              ].map(s => (
-                                <option value={s}>{s}</option>
-                              ))} 
-                          </Form.Select>
+                        <Form.Label column sm={4}  className="text-right text-primary font-weight-bold control-label" >Subject</Form.Label>
+                        <Col sm={6} >
+                            <Form.Select as="select" className="rounded=0 shadow" name="subject" value={inputs.subject || ""} onChange={handleInputChange}>
+                                <option className="d-none" value="">---Select---</option>
+                                {[
+                                  "Curriculm Design",
+                                  "Health Science A (1-3T)",
+                                  "Massage Clinic C",
+                                  "Leadership in Early Childhood Education",
+                                  "Diverse Clients",
+                                  "Counselling Specialisation",
+                                  "The Yoga Business",
+                                  "Healthy Bodies Theory",
+                                  "Cycle A Theory",
+                                  "Advanced Personal Training(Theory+Practical)",
+                                  "Human Resource Management"
+                                  ].map(s => (
+                                    <option value={s}>{s}</option>
+                                  ))} 
+                              </Form.Select>
                         </Col>
                     </Form.Group>
 
                   {/* Course Input */}
                   <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalCourse">
-                        <Form.Label column sm={2}  className="text-right text-primary font-weight-bold control-label">Course Name</Form.Label>
-                        <Col sm={3} >
+                        <Form.Label column sm={4}  className="text-right text-primary font-weight-bold control-label">Course Name</Form.Label>
+                        <Col sm={6} >
                             <Form.Select as="select" className="rounded=0 shadow" name="course" value={inputs.course || ""}  onChange={handleInputChange}>
                               <option className="d-none" value="">---Select---</option>
                               {[
@@ -96,8 +151,8 @@ function MySchedule () {
                   
                   {/* Campus Input */}
                   <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalCampus">
-                        <Form.Label column sm={2} className="text-right text-primary font-weight-bold control-label" >Campus</Form.Label>
-                        <Col sm={3} >
+                        <Form.Label column sm={4} className="text-right text-primary font-weight-bold control-label" >Campus</Form.Label>
+                        <Col sm={6} >
                             <Form.Select as="select" className="rounded=0 shadow" name="campus" value={inputs.campus || ""} onChange={handleInputChange}>
                               <option className="d-none" value="">---Select---</option>
                               {[
@@ -114,8 +169,8 @@ function MySchedule () {
 
                   {/* Date input */}
                   <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalDate">
-                        <Form.Label column sm={2}  className="text-right text-primary font-weight-bold control-label">Class Date</Form.Label>
-                        <Col sm={3} >
+                        <Form.Label column sm={4}  className="text-right text-primary font-weight-bold control-label">Class Date</Form.Label>
+                        <Col sm={6} >
                             <Form.Select as="select" className="rounded=0 shadow" name="date" value={inputs.date || ""} onChange={handleInputChange}>
                               <option className="d-none" value="">---Select---</option>
                               {[
@@ -133,8 +188,8 @@ function MySchedule () {
 
                   {/* Time input */}
                   <Form.Group as={Row} className="mb-3 required" controlId="formHorizontalTime">
-                        <Form.Label column sm={2} className="text-right text-primary font-weight-bold control-label" >Time</Form.Label>
-                        <Col sm={3} >
+                        <Form.Label column sm={4} className="text-right text-primary font-weight-bold control-label" >Time</Form.Label>
+                        <Col sm={6} >
                             <Form.Select as="select" className="rounded=0 shadow" name="time" value= {inputs.time || ""} onChange={handleInputChange}>
                               <option className="d-none" value="">---Select---</option>
                               {[
@@ -147,17 +202,39 @@ function MySchedule () {
                             </Form.Select>
                         </Col>
                   </Form.Group>
-                
+              </Col>
+            
+            {/* Import csv */}
+              <Col sm={6} className="text-center" >
+                <h5>Or Upload CSV file</h5>
+                  <Form className="mt-5">
+                    <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleCsv} />
+                    <button className="btn btn-danger" onClick={(e) => handleOnSubmitCsv(e)} >Import</button>
+                  </Form>        
+              </Col> 
+            </Row>
                 {/* Submit Button */}
                 <Form.Group as={Row} className="text-center">
                   <Col>
                     <button type="submit" className="btn btn-primary">Submit</button>
                   </Col>
                 </Form.Group>
+              
                 </Form>
             </Card.Body>
             <Card.Footer className="text-muted font-italic"><h6>* Please note that timesheets need to be approved in 2-business days. Please contact admin if you have any enquiries.</h6></Card.Footer>
         </Card>
+        {/* <table>
+          <thead>
+            <tr key={"header"}> {headerKeys.map((key) => (<th>{key}</th>))} </tr>
+          </thead>
+
+          <tbody>
+            {array.map((item) => (
+              <tr key={item.id}> {Object.values(item).map((val) => (<td>{val}</td>))} </tr>
+            ))}
+          </tbody>
+        </table> */}
     </Fragment>
     );
 }
